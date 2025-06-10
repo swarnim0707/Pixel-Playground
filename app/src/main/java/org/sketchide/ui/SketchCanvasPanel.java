@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 
 public class SketchCanvasPanel extends JPanel {
 
-    private Sketch sketch;
+    public Sketch sketch;
 
     public SketchCanvasPanel() {
         setBackground(Color.DARK_GRAY);

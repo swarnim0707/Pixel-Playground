@@ -3,21 +3,22 @@ package org.sketchide.engine;
 import org.sketchide.ui.SketchCanvasPanel;
 
 import javax.tools.*;
-import java.io.*;
 import java.net.*;
 import java.nio.file.*;
 import java.util.*;
+import javax.swing.Timer;
 
 public class SketchRunner {
 
     private final String code;
     private final SketchCanvasPanel canvasPanel;
+    private Timer animationTimer;
     public SketchRunner(String code, SketchCanvasPanel canvasPanel) {
         this.code = code;
         this.canvasPanel = canvasPanel;
     }
 
-    public void run() {
+    public void run(String mode) {
         try {
 //           Prepare temp directory for the sketch file for compilation
             Path tempDir = Files.createTempDirectory("sketch");
@@ -47,10 +48,9 @@ public class SketchRunner {
 
             if (!success) {
                 StringBuilder errorMsg = new StringBuilder();
-                diagnostics.getDiagnostics().forEach(d -> {
-                    errorMsg.append(d.getKind()).append(": ").append(d.getMessage(null))
-                            .append("\n");
-                });
+                diagnostics.getDiagnostics().forEach(d ->
+                        errorMsg.append(d.getKind()).append(": ").append(d.getMessage(null))
+                        .append("\n"));
                 canvasPanel.showError(errorMsg.toString());
                 return;
             }
@@ -65,12 +65,33 @@ public class SketchRunner {
 
             // 5) Set and repaint
             canvasPanel.setSketch(sketch);
-            canvasPanel.repaint();
+            if(mode.equals("Static Sketch")) canvasPanel.repaint();
+            else {
+                int delaySketch = sketch.init();
+                animationTimer = null;
+                animationTimer = new Timer(delaySketch, e -> {
+                    canvasPanel.repaint();
+                });
+                animationTimer.setInitialDelay(0);
+                animationTimer.start();
+            }
 
         } catch(Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void stopAnimation() {
+        if(animationTimer != null && animationTimer.isRunning()) {
+            animationTimer.stop();
+        }
+    }
+
+    public void restartAnimation() {
+        if(animationTimer != null && !animationTimer.isRunning()) {
+            animationTimer.restart();
+        }
     }
 
     private String wrapSource(String className, String body) {
@@ -79,10 +100,7 @@ public class SketchRunner {
             import java.awt.*;
             import org.sketchide.engine.Sketch;
             public class %s implements Sketch {
-                @Override
-                public void draw(Graphics2D g) {
-                    %s
-                }
+            %s
             }
             """.formatted(className, body);
     }

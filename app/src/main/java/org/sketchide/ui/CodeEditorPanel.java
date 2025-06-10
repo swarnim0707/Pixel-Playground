@@ -30,4 +30,6 @@ public class CodeEditorPanel extends JPanel {
     public String getCode() {
         return textArea.getText();
     }
+
+    public void setText(String s) {textArea.setText(s);}
 }
