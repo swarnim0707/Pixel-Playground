@@ -40,7 +40,7 @@ SketchIDE is a standalone Java application built with Swing. Users write Java co
 * **Static & Animation Modes**: Static mode draws a single frame; animation mode uses `javax.swing.Timer` to repaint periodically based on a returned delay.
 * **Canvas Rendering**: `SketchCanvasPanel` extends JPanel and overrides `paintComponent` to invoke `sketch.draw`, handling EDT correctly and showing errors when they occur.
 * **PNG Export**: Captures the canvas into a `BufferedImage` and saves it as PNG via `ImageIO`, with file chooser dialogs.
-* **Video (MP4) Export with Alpha Blending**: Captures frames off-screen into `BufferedImage`, clears each frame before drawing, pads to even dimensions when needed, applies background color to preserve appearance of transparency, and encodes to MP4 via FFmpeg. Progress is shown via SwingWorker and a progress dialog, with cancellation support.
+* **Video (MP4) Export with Alpha Blending**: Captures frames off-screen into `BufferedImage`, clears each frame before drawing, pads to even dimensions when needed, and encodes to MP4 via FFmpeg. Progress is shown via SwingWorker and a progress dialog, with cancellation support. Implemented alpha premultiplication to preserve the visual appearance of transparency in MP4 exports by compositing ARGB frames onto a user-defined background in RGB frames using Java’s alpha blending pipeline.
 * **UI Patterns**: Uses SwingWorker for background tasks, modal dialogs (JOptionPane, JFileChooser, JColorChooser), menus with radio-button items for mode selection, and planned key bindings for common actions.
 * **Error Handling**: Compilation errors are shown to the user; runtime exceptions in drawing are caught or reported; FFmpeg errors are captured and displayed.
 
