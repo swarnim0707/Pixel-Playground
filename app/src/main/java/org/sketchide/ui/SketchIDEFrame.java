@@ -96,7 +96,6 @@
             });
             fileMenu.add(saveItem);
             fileMenu.addSeparator();
-            fileMenu.add(new JMenuItem("Export"));
 
             JMenuItem runItem = new JMenuItem("Run Code");
             runItem.addActionListener(e -> {
@@ -328,7 +327,7 @@
             g.setClip(0, 0, w, h);
 
             // Prepare a progress dialog
-            JDialog progressDialog = new JDialog(this, "Exporting Video...", true);
+            JDialog progressDialog = new JDialog(this, "Exporting Video...", false);
             JProgressBar progressBar = new JProgressBar(0, totalFrames);
             progressBar.setStringPainted(true);
             JButton cancelButton = new JButton("Cancel");
