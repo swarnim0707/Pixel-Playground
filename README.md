@@ -53,7 +53,7 @@ SketchIDE is a standalone Java application built with Swing. Users write Java co
 
 2. **Custom Compressor for Code**
 
-    * Implement a custom compression/decompression method (e.g., LZ77+Huffman) to embed code efficiently in metadata and for undo/redo storage.
+    * Implement a custom compression/decompression method (custom tokenizer + Huffman encoding and grammar-based compression using DAGs (like Re-Pair)) to embed code efficiently in metadata and for undo/redo storage.
 
 3. **Scene Graph & Transformations**
 
