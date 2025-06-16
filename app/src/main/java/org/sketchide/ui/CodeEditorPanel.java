@@ -9,7 +9,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class CodeEditorPanel extends JPanel {
 
-    private RSyntaxTextArea textArea;
+    private final RSyntaxTextArea textArea;
 
     public CodeEditorPanel() {
         setLayout(new BorderLayout());

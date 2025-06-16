@@ -12,16 +12,18 @@ public class SketchRunner {
 
     private final String code;
     private final SketchCanvasPanel canvasPanel;
-    private Timer animationTimer;
+    public Timer animationTimer;
     public SketchRunner(String code, SketchCanvasPanel canvasPanel) {
         this.code = code;
         this.canvasPanel = canvasPanel;
     }
+    public Path tempDir;
+    public Class<?> cls;
 
     public void run(String mode) {
         try {
 //           Prepare temp directory for the sketch file for compilation
-            Path tempDir = Files.createTempDirectory("sketch");
+            tempDir = Files.createTempDirectory("sketch");
 //            Write source file
             String className = "UserSketch";
             Path packageDir = tempDir.resolve("dynamic");
@@ -60,7 +62,7 @@ public class SketchRunner {
                     new URL[]{ tempDir.toUri().toURL() },
                     this.getClass().getClassLoader()
             );
-            Class<?> cls = loader.loadClass("dynamic.UserSketch");
+            cls = loader.loadClass("dynamic.UserSketch");
             Sketch sketch = (Sketch) cls.getDeclaredConstructor().newInstance();
 
             // 5) Set and repaint
